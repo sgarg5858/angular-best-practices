@@ -1,0 +1,21 @@
+@mixin flex-center($direction) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    width: 100vw;
+    height: 90vh;
+    @include flex-center(row);
+
+}
+
+form{
+    @include flex-center(column);
+    width: 400px;
+}
+mat-form-field{
+    width: 300px;
+    margin: 20px;
+}

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanLoad, Route, Router, UrlSegment, UrlTree } from '@angular/router';
-import { filter, map, Observable, take, tap } from 'rxjs';
+import { delay, filter, map, Observable, take, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -12,16 +12,12 @@ export class CanLoadLazyModulesService implements CanLoad{
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
 
     return this.authService.user$.pipe(
+      delay(1000),
       map((user)=>user? true : false),
-      tap((loggedIn:boolean)=>{
-        if(!loggedIn)
-        {
-          console.log(route.path);
-          //check this if it works?
-          this.router.navigate(['login'],{queryParams:{returnUrl:route.path}});
-        }
-      }),
-      take(1)
+      map(
+        (isLoggedIn) => 
+        isLoggedIn || this.router.createUrlTree(['login'],{queryParams:{returnUrl:route.path}})
+        ),
     )
 
   }

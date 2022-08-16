@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, delay, Observable, of, skip } from 'rxjs';
+import { BehaviorSubject, delay, distinctUntilChanged, filter, map, Observable, of, pluck, skip } from 'rxjs';
 import { LOCAL_STORAGE } from '../injection-tokens/local-storage.token';
 
 export interface User{
@@ -12,7 +12,7 @@ export interface User{
   confirmPassword?:string;
 }
 export interface AuthState{
-  user:User,
+  user:User | null,
   loading:boolean,
   authError:string
 }
@@ -26,13 +26,23 @@ export class AuthService {
     console.log(myLocalStorage)
   }
 
-  private userBehaviorSubject = new BehaviorSubject<User|null>(null);
-  public readonly user$ = this.userBehaviorSubject.asObservable();
-  private loginBehaviorSubject = new BehaviorSubject<string|null>(null);
-  public readonly loginError$ =this.loginBehaviorSubject.asObservable().pipe(skip(1));
-  private loadingBehaviorSubject = new BehaviorSubject<boolean>(false);
-  public readonly loading$ = this.loadingBehaviorSubject.asObservable();
+  private authStateSubject = new BehaviorSubject<AuthState>({user:null,loading:false,authError:""});
+  public readonly user$ = this.authStateSubject.asObservable().pipe(
+    filter((authState)=>authState!=null),
+    map((authState)=>authState?.user),
+    distinctUntilChanged()
+  )
+  public readonly loading$ = this.authStateSubject.asObservable().pipe(
+    filter((authState)=>authState!=null),
+    map((authState)=>authState?.loading),
+    distinctUntilChanged()
+  );
 
+  public readonly authError$ = this.authStateSubject.asObservable().pipe(
+    filter((authState)=>authState!=null),
+    map((authState)=>authState?.authError),
+    distinctUntilChanged()
+  );
 
   getUsersFromLocalStorage()
   {
@@ -49,48 +59,63 @@ export class AuthService {
     }
     return users; 
   }
-
+  //this is for email validation!
   checkIfThisUserAlreadyExists(control:AbstractControl):Observable<ValidationErrors|null>
   {
     const email = control.value;
     const users = this.getUsersFromLocalStorage();
 
-    if(users.length>0)
+    if(this.checkIfListHasUserWithEmail(email,users))
     {
-      let matching = users.find((user:User)=>user.email===email)
-      if(matching)
-      {
-        return of({emailAlreadyTaken:true}).pipe(delay(3000));
-      }
+      return of({emailAlreadyTaken:true}).pipe(delay(3000));
     }
     
     return of(null).pipe(delay(5000));
   }
 
-  loadingIndicator(show:boolean)
+  updateAuthState(state:AuthState,delay:number):void
   {
-    this.loadingBehaviorSubject.next(show);
+    setTimeout(()=>{
+      this.authStateSubject.next(state);
+    },delay)
+  }
+
+  checkIfListHasUserWithEmail(email:string,users:User[]):User |undefined
+  {
+    if(users.length === 0) return ;
+    let matching = users.find((user:User)=>user.email===email)
+    return matching;
   }
 
   signup(user:User)
   {
-    this.loadingIndicator(true);
+    //Set the loading indicator to true as we are starting the signup process
+    this.updateAuthState({...this.authStateSubject.value,loading:true,authError:""},0);
     
 
     let users=this.getUsersFromLocalStorage();
 
-    if(users && Array.isArray(users)){
-      users=[...users,user];
+    //Since the email is already taken, throw the error!
+    if(this.checkIfListHasUserWithEmail(user.email,users))
+    {
+      this.authStateSubject.next({...this.authStateSubject.value,authError:"This email is already taken"});
     }
+    else
+    {
+    
 
-    this.loadingIndicator(false);
+      //add to all users list!
+      if(users && Array.isArray(users)){
+        users=[...users,user];
+      }
+      //set the user & loading to false;
+      this.updateAuthState({...this.authStateSubject.value,user,loading:false,authError:""},3000);
+      //updating in local storage!
+      this.myLocalStorage.setItem('users',JSON.stringify(users));
 
-    //sending to listeners!
-    this.userBehaviorSubject.next(user);
-    //updating in local storage!
-    this.myLocalStorage.setItem('users',JSON.stringify(users));
 
     //show snackbar here!
+    }
 
     
   }
@@ -98,61 +123,34 @@ export class AuthService {
   login(email:string,password:string,returnUrl:string|null)
   {
 
-    this.loadingIndicator(true);
+    //Set the loading indicator to true
+    this.updateAuthState({...this.authStateSubject.value,loading:true,authError:""},0);
 
     let users =this.getUsersFromLocalStorage();
 
-    if(users.length>0)
+    let userFound = this.checkIfListHasUserWithEmail(email,users);
+    if(userFound)
     {
-      let matching:User|undefined = users.find((user:User)=>user.email===email);
-      console.log(matching)
-      if(matching)
+      if(userFound.password === password)
       {
-        if( matching.password === password)
-        {
-        this.userBehaviorSubject.next(matching);
-        if(returnUrl)
-        {
-          this.router.navigate([returnUrl])
-        }
-        else{
-          this.router.navigate(['home'])
-        }
-        }
-        else
-        {
-          setTimeout(()=>{
-            this.loginBehaviorSubject.next("Wrong Password");
-             this.loadingIndicator(false);
-
-          },4000)
-        }
-        
+        this.updateAuthState({user:userFound,loading:false,authError:""},3000);
       }
       else{
-        setTimeout(()=>
-        {
-          this.loginBehaviorSubject.next("User not found!")
-          this.loadingIndicator(false);
-
-        },4000)
+        this.updateAuthState({user:null,loading:false,authError:"Wrong Password!"},3000);
       }
     }
     else
     {
-    setTimeout(()=>{
-      this.userBehaviorSubject.next(null);
-      this.loginBehaviorSubject.next("User not found!")
-      this.loadingIndicator(false);
-
-    },4000)
+      this.updateAuthState({user:null,loading:false,authError:"User not found, Try signing up!"},3000);
     }
+
+    
   }
 
   resetTheLoginFormError()
   {
     console.log("HELLO")
-    this.loginBehaviorSubject.next(null);
+    this.updateAuthState({...this.authStateSubject.value,authError:""},0);
   }
   
 }

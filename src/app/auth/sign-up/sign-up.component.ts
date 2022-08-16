@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { checkIfBothControlsHaveSameValue } from 'src/app/validators/checkIfBothPasswordsAreSame';
 import { isLength } from 'src/app/validators/checkIfLengthisN';
 import { AuthService, User } from '../auth.service';
+import { EmailValidationService } from '../email-validation.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -11,7 +12,7 @@ import { AuthService, User } from '../auth.service';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor(private authService:AuthService) { }
+  constructor(private authService:AuthService,private emailValidationService:EmailValidationService) { }
 
   ngOnInit(): void {
   }
@@ -19,7 +20,7 @@ export class SignUpComponent implements OnInit {
   signupForm = new FormGroup({
     name: new FormControl('',{validators:[Validators.required]}),
     // mimic unique email validator using local storage!
-    email: new FormControl('',{validators:[Validators.required,Validators.email]}),
+    email: new FormControl('',{validators:[Validators.required,Validators.email],asyncValidators:[this.validateEmail.bind(this)]}),
     //add validator for length 10 => DONE!
     contact: new FormControl('',{validators:[Validators.required,isLength(10)]}),
     password: new FormControl('',{validators:[Validators.required,Validators.minLength(6)]}),
@@ -30,6 +31,11 @@ export class SignUpComponent implements OnInit {
     ,updateOn:'change'
   }
     )
+
+    validateEmail(control:AbstractControl)
+    {
+      return this.authService.checkIfThisUserAlreadyExists(control);
+    }
 
   signUp()
   {

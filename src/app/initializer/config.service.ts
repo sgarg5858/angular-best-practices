@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, filter } from 'rxjs';
+import { BehaviorSubject, delay, filter } from 'rxjs';
 
 export interface Config{
   baseUrl:string;
@@ -24,7 +24,9 @@ export class ConfigService {
   {
     //we can store this url in environment file & then access environment
     // variables via Injection TOken
-    this.httpClient.get<Config>('../../assets/config.json').subscribe({
+    this.httpClient.get<Config>('../../assets/config.json')
+    .pipe(delay(1000))
+    .subscribe({
       next:(config:Config)=>{
         this.configBehaviorSubject.next(config)
       },

@@ -11,6 +11,11 @@ export interface User{
   password:string;
   confirmPassword?:string;
 }
+export interface AuthState{
+  user:User,
+  loading:boolean,
+  authError:string
+}
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +33,9 @@ export class AuthService {
   private loadingBehaviorSubject = new BehaviorSubject<boolean>(false);
   public readonly loading$ = this.loadingBehaviorSubject.asObservable();
 
-  checkIfThisUserAlreadyExists(control:AbstractControl):Observable<ValidationErrors|null>
+
+  getUsersFromLocalStorage()
   {
-    const email = control.value;
     const checkLocalStorage = this.myLocalStorage.getItem('users');
     let users:User[]=[];
     
@@ -42,12 +47,20 @@ export class AuthService {
         users=tempUsers;
       }
     }
+    return users; 
+  }
+
+  checkIfThisUserAlreadyExists(control:AbstractControl):Observable<ValidationErrors|null>
+  {
+    const email = control.value;
+    const users = this.getUsersFromLocalStorage();
+
     if(users.length>0)
     {
       let matching = users.find((user:User)=>user.email===email)
       if(matching)
       {
-        return of({emailAlreadyTaken:true}).pipe(delay(5000));
+        return of({emailAlreadyTaken:true}).pipe(delay(3000));
       }
     }
     
@@ -62,20 +75,12 @@ export class AuthService {
   signup(user:User)
   {
     this.loadingIndicator(true);
-    const checkLocalStorage = this.myLocalStorage.getItem('users');
-    let users:User[]=[];
     
-    if(checkLocalStorage)
-    {
-      let tempUsers = JSON.parse(checkLocalStorage);
-      if( Array.isArray(tempUsers) && tempUsers.length >0 && "name" in tempUsers[0] && "email" in tempUsers[0] && "contact" in tempUsers[0])
-      {
-        users=tempUsers;
-      }
-    }
+
+    let users=this.getUsersFromLocalStorage();
 
     if(users && Array.isArray(users)){
-      users.push(user);
+      users=[...users,user];
     }
 
     this.loadingIndicator(false);
@@ -95,17 +100,8 @@ export class AuthService {
 
     this.loadingIndicator(true);
 
-    const checkLocalStorage = this.myLocalStorage.getItem('users');
-    let users:User[]=[];
-    
-    if(checkLocalStorage)
-    {
-      let tempUsers = JSON.parse(checkLocalStorage);
-      if( Array.isArray(tempUsers) && tempUsers.length > 0 && "name" in tempUsers[0] && "email" in tempUsers[0] && "contact" in tempUsers[0])
-      {
-        users=tempUsers;
-      }
-    }
+    let users =this.getUsersFromLocalStorage();
+
     if(users.length>0)
     {
       let matching:User|undefined = users.find((user:User)=>user.email===email);

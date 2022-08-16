@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialComponentsModule } from './material-components/material-components.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NavigationAndRoutingIndicatorModule } from './navigation-and-routing-indicator/navigation-and-routing-indicator.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AuthModule,
     BrowserAnimationsModule,
     MaterialComponentsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NavigationAndRoutingIndicatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

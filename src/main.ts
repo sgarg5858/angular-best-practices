@@ -9,4 +9,22 @@ if (environment.production) {
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+  .then(()=>{
+    let containerElement = document.getElementById('initialContainer');
+
+    if(containerElement)
+    {
+      containerElement.remove();
+    }
+  })
+  .catch(err =>
+    {
+      console.log(err);
+      let intialElement = document.getElementById('initialView');
+      console.log(intialElement)
+    if(intialElement)
+    {
+      intialElement.textContent="Coudln't reach our servers, please try again :)";
+      intialElement.classList.add('red-border');
+    }
+    });

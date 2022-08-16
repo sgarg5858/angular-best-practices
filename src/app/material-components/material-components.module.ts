@@ -5,9 +5,17 @@ import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatButtonModule} from '@angular/material/button'
 import {MatIconModule} from '@angular/material/icon'
 import {MatCardModule} from '@angular/material/card'
-import {MatProgressBarModule} from '@angular/material/progress-bar'
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 const components = [ CommonModule,MatInputModule,MatFormFieldModule,MatButtonModule,MatIconModule,
-  MatCardModule,MatProgressBarModule]
+  MatCardModule,MatProgressBarModule,MatToolbarModule,MatSnackBarModule,MatTooltipModule,MatSidenavModule,
+  MatSlideToggleModule
+]
 
 @NgModule({
   declarations: [],

@@ -73,8 +73,8 @@ export class AuthService {
     //updating in local storage!
     this.myLocalStorage.setItem('users',JSON.stringify(users));
 
-    //Comment this later for smooth UX!
-    alert("USER SIGNED UP!")
+    //show snackbar here!
+
   }
   
 }

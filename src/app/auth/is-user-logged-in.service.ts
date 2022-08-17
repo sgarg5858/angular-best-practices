@@ -13,7 +13,7 @@ export class IsUserLoggedInService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
 
     return this.authService.user$.pipe(
-      delay(2000),
+      delay(1000),
       map((user)=>user? true : false),
       tap((loggedIn:boolean)=>{
         if(!loggedIn)

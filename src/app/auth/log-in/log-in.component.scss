@@ -7,7 +7,22 @@
 .container{
     width: 100vw;
     height: 90vh;
-    @include flex-center(row);
+    @include flex-center(column);
+}
+.signupCard
+{
+    margin-top: 20px;
+    width: 400px;
+    height: 50px;
+   @include flex-center((row));
+   a{
+    margin-left:10px;
+    color: white;
+    text-decoration: none;
+    &:hover{
+        color:dodgerblue;
+    }
+   }
 
 }
 

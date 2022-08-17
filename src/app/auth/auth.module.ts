@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialComponentsModule } from '../material-components/material-components.module';
 import { UpdateDetailsComponent } from './update-details/update-details.component';
 import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -23,7 +24,8 @@ import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
     CommonModule,
     ReactiveFormsModule,
     MaterialComponentsModule,
-    NgxLoadingButtonsModule
+    NgxLoadingButtonsModule,
+    RouterModule.forChild([])
   ]
 })
 export class AuthModule { }

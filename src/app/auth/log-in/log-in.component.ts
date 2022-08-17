@@ -13,7 +13,6 @@ export class LogInComponent implements OnInit {
 
   constructor(
     public authService:AuthService,
-    private router:Router,
     private activatedRoute:ActivatedRoute) { }
 
   loginForm = new FormGroup({
@@ -21,25 +20,22 @@ export class LogInComponent implements OnInit {
     password: new FormControl('12121212',[Validators.required,Validators.minLength(6)])
   })
 
-  returnURl:string|null=null;
+  returnUrl:string|null=null;
 
 
   ngOnInit(): void {
 
 
-    this.activatedRoute.queryParamMap.pipe(take(1)).subscribe((queryParams:ParamMap)=>{
+    this.activatedRoute.queryParamMap.subscribe((queryParams:ParamMap)=>{
       if(queryParams.has('returnUrl') && queryParams.get('returnUrl'))
       {
-        this.returnURl = queryParams.get('returnUrl');
+        this.returnUrl = queryParams.get('returnUrl');
+        console.log(this.returnUrl);
       }
     })
 
   
-    this.authService.user$.subscribe((user)=>{
-      console.log("USER",user)
-    })
-   
-
+    
   }
 
   login()
@@ -50,7 +46,7 @@ export class LogInComponent implements OnInit {
       this.resetLoginFormError();
       let email = this.loginForm.controls.email.value!;
       let password = this.loginForm.controls.password.value!;
-      this.authService.login(email,password,this.returnURl);
+      this.authService.login(email,password,this.returnUrl);
       // this.loginForm.reset({email,password})
     }
   }

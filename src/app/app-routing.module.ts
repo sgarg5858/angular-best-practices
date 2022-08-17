@@ -20,7 +20,7 @@ const routes: Routes = [
   {
     path:'comments',
     loadChildren : ()=>  defer(()=>import('./comments/comments.module').then((m=>m.CommentsModule)))
-    .pipe(delay(2000)),
+  ,
     canLoad:[CanLoadLazyModulesService]
 
   }

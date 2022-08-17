@@ -80,7 +80,7 @@ export class AuthService {
 
     if(this.checkIfListHasUserWithEmail(email,users))
     {
-      return of({emailAlreadyTaken:true}).pipe(delay(3000));
+      return of({emailAlreadyTaken:true}).pipe(delay(1000));
     }
     
     return of(null).pipe(delay(5000));
@@ -94,7 +94,7 @@ export class AuthService {
     return matching;
   }
 
-  signup(user:User)
+  signup(user:User,returnUrl:string|null)
   {
     //Set the loading indicator to true as we are starting the signup process
     this.updateAuthState({...this.authStateSubject.value,loading:true,authError:""},0);
@@ -115,7 +115,8 @@ export class AuthService {
         users=[...users,user];
       }
       //set the user & loading to false;
-      this.updateAuthState({user,loading:false,authError:""},3000);
+      this.updateAuthState({user,loading:false,authError:""},1000);
+      this.doNavigate(returnUrl,1000);
 
       //updating in local storage!
       this.myLocalStorage.setItem('users',JSON.stringify(users));
@@ -140,19 +141,19 @@ export class AuthService {
     {
       if(userFound.password === password)
       {
-        this.updateAuthState({user:userFound,loading:false,authError:""},3000);
+        this.updateAuthState({user:userFound,loading:false,authError:""},1000);
         console.log("LOGIN WORKED")
-        this.doNavigate(returnUrl,3000);
+        this.doNavigate(returnUrl,1000);
         
       }
       else{
         //change loading to
-        this.updateAuthState({user:null,loading:false,authError:"Wrong Password!"},3000);
+        this.updateAuthState({user:null,loading:false,authError:"Wrong Password!"},1000);
       }
     }
     else
     {
-      this.updateAuthState({user:null,loading:false,authError:"User not found, Try signing up!"},3000);
+      this.updateAuthState({user:null,loading:false,authError:"User not found, Try signing up!"},1000);
     }
 
     

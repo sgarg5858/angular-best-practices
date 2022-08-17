@@ -81,4 +81,10 @@
         </form>
 
     </mat-card>
+
+    <mat-card class="loginCard">
+        Already have an account? 
+        <a [routerLink]="['/login']"  [queryParams]="{returnUrl: returnUrl }">Login</a>
+       </mat-card>
+
 </div>

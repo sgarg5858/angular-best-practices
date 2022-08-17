@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { take } from 'rxjs';
 import { checkIfBothControlsHaveSameValue } from 'src/app/validators/checkIfBothPasswordsAreSame';
 import { isLength } from 'src/app/validators/checkIfLengthisN';
 import { AuthService, User } from '../auth.service';
-import { EmailValidationService } from '../email-validation.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,9 +13,20 @@ import { EmailValidationService } from '../email-validation.service';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor(private authService:AuthService,private emailValidationService:EmailValidationService) { }
+  constructor(private authService:AuthService,private activatedRoute:ActivatedRoute) { }
+
+  returnUrl:string|null=null;
+
 
   ngOnInit(): void {
+
+    this.activatedRoute.queryParamMap.subscribe((queryParams:ParamMap)=>{
+      if(queryParams.has('returnUrl') && queryParams.get('returnUrl'))
+      {
+        this.returnUrl = queryParams.get('returnUrl');
+      }
+    })
+
   }
 
   signupForm = new FormGroup({
@@ -49,7 +61,7 @@ export class SignUpComponent implements OnInit {
         contact:this.signupForm.controls.contact.value!,
         password:this.signupForm.controls.password.value!
       }
-      this.authService.signup(user);
+      this.authService.signup(user,this.returnUrl);
     }
     //show a snackbar or modal to user about missing or wrong data!
     else{

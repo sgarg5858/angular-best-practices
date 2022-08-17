@@ -11,6 +11,7 @@ import { NavigationAndRoutingIndicatorModule } from './navigation-and-routing-in
 import { HomeComponent } from './home/home.component';
 import {HttpClientModule} from '@angular/common/http'
 import { InitializerModule } from './initializer/initializer.module';
+import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +26,8 @@ import { InitializerModule } from './initializer/initializer.module';
     MaterialComponentsModule,
     ReactiveFormsModule,
     NavigationAndRoutingIndicatorModule,
-    InitializerModule
+    InitializerModule,
+    NgxLoadingButtonsModule
 
   ],
   providers: [],

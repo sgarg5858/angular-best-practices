@@ -21,8 +21,7 @@ export class IsUserLoggedInService implements CanActivate {
           //check this if it works?
           this.router.navigate(['login'],{queryParams:{returnUrl:route.url}});
         }
-      }),
-      take(1)
+      })
     )
   }
 }

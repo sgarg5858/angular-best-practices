@@ -33,18 +33,30 @@
         </mat-form-field>
 
         <ng-container *ngIf="(authService.authError$ | async) as err">
-            <mat-error style="font-size: 24px;margin: 5px;">
+            <mat-error style="font-size: 20px;margin: 10px;">
                 {{err}}
             </mat-error>
         </ng-container>
 
-        <button 
+        <button
+        class="myButton" 
         mat-raised-button 
         color="primary" 
         (click)="login()"
-        [class.spinner] = "(authService.loading$ | async)"
         [disabled]="(authService.loading$ | async)"
-        >Login</button>
+        >
+        <span>Login</span>
+        <ng-container *ngIf="(authService.loading$ | async);">
+            <mat-progress-spinner
+            color="accent"
+            class="example-margin"
+            mode="indeterminate"
+            diameter="28"
+            >
+            </mat-progress-spinner>
+        </ng-container>
+            
+    </button>
 
     </form>
 

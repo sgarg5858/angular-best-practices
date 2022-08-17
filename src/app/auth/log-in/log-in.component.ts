@@ -17,8 +17,8 @@ export class LogInComponent implements OnInit {
     private activatedRoute:ActivatedRoute) { }
 
   loginForm = new FormGroup({
-    email : new FormControl('',[Validators.required,Validators.email]),
-    password: new FormControl('',[Validators.required,Validators.minLength(6)])
+    email : new FormControl('sgarg5858@gmail.com',[Validators.required,Validators.email]),
+    password: new FormControl('12121212',[Validators.required,Validators.minLength(6)])
   })
 
   returnURl:string|null=null;
@@ -26,7 +26,6 @@ export class LogInComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.authService.loading$.subscribe(console.log)
 
     this.activatedRoute.queryParamMap.pipe(take(1)).subscribe((queryParams:ParamMap)=>{
       if(queryParams.has('returnUrl') && queryParams.get('returnUrl'))
@@ -34,6 +33,13 @@ export class LogInComponent implements OnInit {
         this.returnURl = queryParams.get('returnUrl');
       }
     })
+
+  
+    this.authService.user$.subscribe((user)=>{
+      console.log("USER",user)
+    })
+   
+
   }
 
   login()

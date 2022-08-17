@@ -5,6 +5,7 @@ import { LogInComponent } from './log-in/log-in.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialComponentsModule } from '../material-components/material-components.module';
 import { UpdateDetailsComponent } from './update-details/update-details.component';
+import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
 
 
 
@@ -21,7 +22,8 @@ import { UpdateDetailsComponent } from './update-details/update-details.componen
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MaterialComponentsModule
+    MaterialComponentsModule,
+    NgxLoadingButtonsModule
   ]
 })
 export class AuthModule { }

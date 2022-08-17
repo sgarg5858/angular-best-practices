@@ -11,10 +11,11 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 const components = [ CommonModule,MatInputModule,MatFormFieldModule,MatButtonModule,MatIconModule,
   MatCardModule,MatProgressBarModule,MatToolbarModule,MatSnackBarModule,MatTooltipModule,MatSidenavModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,MatProgressSpinnerModule
 ]
 
 @NgModule({

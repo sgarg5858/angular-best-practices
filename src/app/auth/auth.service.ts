@@ -23,27 +23,39 @@ export interface AuthState{
 export class AuthService {
 
   constructor(@Inject(LOCAL_STORAGE) private myLocalStorage:Storage,private router:Router) { 
-    console.log(myLocalStorage)
   }
-
+  //This behavior subject has whole Auth State kind of like feature state in redux
   private authStateSubject = new BehaviorSubject<AuthState>({user:null,loading:false,authError:""});
+
+  //Selectors We can say
+  //This slices user part of it, we can user selector
   public readonly user$ = this.authStateSubject.asObservable().pipe(
     filter((authState)=>authState!=null),
     map((authState)=>authState?.user),
     distinctUntilChanged()
   )
+  //THis slices loading part of that
   public readonly loading$ = this.authStateSubject.asObservable().pipe(
     filter((authState)=>authState!=null),
     map((authState)=>authState?.loading),
     distinctUntilChanged()
   );
-
+  //this slices authError part of that
   public readonly authError$ = this.authStateSubject.asObservable().pipe(
     filter((authState)=>authState!=null),
     map((authState)=>authState?.authError),
     distinctUntilChanged()
   );
 
+  //Our Reducer we can say!
+  updateAuthState(state:AuthState,delay:number):void
+  {
+    setTimeout(()=>{
+      this.authStateSubject.next(state);
+    },delay)
+  }
+
+  // Utility function to get all users from local storage
   getUsersFromLocalStorage()
   {
     const checkLocalStorage = this.myLocalStorage.getItem('users');
@@ -59,6 +71,7 @@ export class AuthService {
     }
     return users; 
   }
+
   //this is for email validation!
   checkIfThisUserAlreadyExists(control:AbstractControl):Observable<ValidationErrors|null>
   {
@@ -73,13 +86,7 @@ export class AuthService {
     return of(null).pipe(delay(5000));
   }
 
-  updateAuthState(state:AuthState,delay:number):void
-  {
-    setTimeout(()=>{
-      this.authStateSubject.next(state);
-    },delay)
-  }
-
+//Traverses through array to find if user is in the list!
   checkIfListHasUserWithEmail(email:string,users:User[]):User |undefined
   {
     if(users.length === 0) return ;
@@ -98,23 +105,23 @@ export class AuthService {
     //Since the email is already taken, throw the error!
     if(this.checkIfListHasUserWithEmail(user.email,users))
     {
-      this.authStateSubject.next({...this.authStateSubject.value,authError:"This email is already taken"});
+      this.authStateSubject.next({...this.authStateSubject.value,authError:"This email is already taken,try logging in or reset password!"});
     }
     else
     {
     
-
       //add to all users list!
       if(users && Array.isArray(users)){
         users=[...users,user];
       }
       //set the user & loading to false;
-      this.updateAuthState({...this.authStateSubject.value,user,loading:false,authError:""},3000);
+      this.updateAuthState({user,loading:false,authError:""},3000);
+
       //updating in local storage!
       this.myLocalStorage.setItem('users',JSON.stringify(users));
 
+    //Add  snackbar here!
 
-    //show snackbar here!
     }
 
     
@@ -124,7 +131,7 @@ export class AuthService {
   {
 
     //Set the loading indicator to true
-    this.updateAuthState({...this.authStateSubject.value,loading:true,authError:""},0);
+    this.updateAuthState({user:null,loading:true,authError:""},0);
 
     let users =this.getUsersFromLocalStorage();
 
@@ -134,8 +141,12 @@ export class AuthService {
       if(userFound.password === password)
       {
         this.updateAuthState({user:userFound,loading:false,authError:""},3000);
+        console.log("LOGIN WORKED")
+        this.doNavigate(returnUrl,3000);
+        
       }
       else{
+        //change loading to
         this.updateAuthState({user:null,loading:false,authError:"Wrong Password!"},3000);
       }
     }
@@ -150,7 +161,25 @@ export class AuthService {
   resetTheLoginFormError()
   {
     console.log("HELLO")
-    this.updateAuthState({...this.authStateSubject.value,authError:""},0);
+    this.updateAuthState({...this.authStateSubject.value,authError:"",loading:false},0);
   }
   
+
+  doNavigate(returnUrl:string|null,delay:number)
+  {
+    setTimeout(()=>{
+      console.log("NAVIGATION",returnUrl);
+      if(returnUrl == null || returnUrl === "")
+      {
+        this.router.navigateByUrl('home');
+      }
+      else{
+        this.router.navigate([returnUrl],{queryParamsHandling:''}).then((val)=>{
+          console.log(val);
+        }).catch((error)=>{
+          console.log(error);
+        })
+      }
+    },delay)
+  }
 }

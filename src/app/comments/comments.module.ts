@@ -4,6 +4,7 @@ import { CommentsComponent } from './comments/comments.component';
 import { CommentComponent } from './comment/comment.component';
 import { ContainerComponent } from './container/container.component';
 import { CommentDetailComponent } from './comment-detail/comment-detail.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -15,7 +16,12 @@ import { CommentDetailComponent } from './comment-detail/comment-detail.componen
     CommentDetailComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule.forChild([
+      {
+        path:'',component:CommentsComponent
+      }
+    ])
   ]
 })
 export class CommentsModule { }

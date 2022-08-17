@@ -13,6 +13,7 @@ export class CanLoadLazyModulesService implements CanLoad{
 
     return this.authService.user$.pipe(
       delay(1000),
+      tap((user)=>{console.log(user)}),
       map((user)=>user? true : false),
       map(
         (isLoggedIn) => 

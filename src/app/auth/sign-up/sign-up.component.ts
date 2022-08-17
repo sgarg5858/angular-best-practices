@@ -13,7 +13,7 @@ import { AuthService, User } from '../auth.service';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor(private authService:AuthService,private activatedRoute:ActivatedRoute) { }
+  constructor(public authService:AuthService,private activatedRoute:ActivatedRoute) { }
 
   returnUrl:string|null=null;
 

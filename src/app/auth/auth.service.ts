@@ -1,8 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { BehaviorSubject, delay, distinctUntilChanged, filter, map, Observable, of, pluck, skip } from 'rxjs';
+import { DELAY } from '../injection-tokens/delay.token';
 import { LOCAL_STORAGE } from '../injection-tokens/local-storage.token';
+import { CustomSnackbarComponent } from '../shared/custom-snackbar/custom-snackbar.component';
 
 export interface User{
   name:string;
@@ -22,7 +25,12 @@ export interface AuthState{
 })
 export class AuthService {
 
-  constructor(@Inject(LOCAL_STORAGE) private myLocalStorage:Storage,private router:Router) { 
+  constructor(
+    @Inject(LOCAL_STORAGE) private myLocalStorage:Storage,
+    private router:Router,
+    private _snackBar:MatSnackBar,
+    @Inject(DELAY) private delay:number
+    ) { 
   }
   //This behavior subject has whole Auth State kind of like feature state in redux
   private authStateSubject = new BehaviorSubject<AuthState>({user:null,loading:false,authError:""});
@@ -80,7 +88,7 @@ export class AuthService {
 
     if(this.checkIfListHasUserWithEmail(email,users))
     {
-      return of({emailAlreadyTaken:true}).pipe(delay(1000));
+      return of({emailAlreadyTaken:true}).pipe(delay(this.delay));
     }
     
     return of(null).pipe(delay(5000));
@@ -115,9 +123,9 @@ export class AuthService {
         users=[...users,user];
       }
       //set the user & loading to false;
-      this.updateAuthState({user,loading:false,authError:""},1000);
-      this.doNavigate(returnUrl,1000);
-
+      this.updateAuthState({user,loading:false,authError:""},this.delay);
+      this.doNavigate(returnUrl,this.delay);
+      this.showSnackBar("Signedup Successfully!")
       //updating in local storage!
       this.myLocalStorage.setItem('users',JSON.stringify(users));
 
@@ -141,19 +149,20 @@ export class AuthService {
     {
       if(userFound.password === password)
       {
-        this.updateAuthState({user:userFound,loading:false,authError:""},1000);
+        this.updateAuthState({user:userFound,loading:false,authError:""},this.delay);
         console.log("LOGIN WORKED")
-        this.doNavigate(returnUrl,1000);
+        this.showSnackBar("Login Successful")
+        this.doNavigate(returnUrl,this.delay);
         
       }
       else{
         //change loading to
-        this.updateAuthState({user:null,loading:false,authError:"Wrong Password!"},1000);
+        this.updateAuthState({user:null,loading:false,authError:"Wrong Password!"},this.delay);
       }
     }
     else
     {
-      this.updateAuthState({user:null,loading:false,authError:"User not found, Try signing up!"},1000);
+      this.updateAuthState({user:null,loading:false,authError:"User not found, Try signing up!"},this.delay);
     }
 
     
@@ -182,5 +191,12 @@ export class AuthService {
         })
       }
     },delay)
+  }
+
+  showSnackBar(data:string)
+  {
+    setTimeout(()=>{
+    this._snackBar.openFromComponent(CustomSnackbarComponent,{data,duration:1000})
+    },this.delay)
   }
 }

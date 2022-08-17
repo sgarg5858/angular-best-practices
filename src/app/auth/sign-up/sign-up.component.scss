@@ -45,3 +45,16 @@ mat-form-field{
    }
 
 }
+
+.myButton
+{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    mat-progress-spinner{
+        margin-top: 5px;
+        display: inline-block;
+        position: absolute;
+        left: 20px;
+    }
+}

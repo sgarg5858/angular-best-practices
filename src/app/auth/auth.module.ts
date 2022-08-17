@@ -7,6 +7,7 @@ import { MaterialComponentsModule } from '../material-components/material-compon
 import { UpdateDetailsComponent } from './update-details/update-details.component';
 import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
 import { RouterModule } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -25,6 +26,7 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     MaterialComponentsModule,
     NgxLoadingButtonsModule,
+    SharedModule,
     RouterModule.forChild([])
   ]
 })

@@ -76,7 +76,26 @@
                 Passwords do not match !
             </mat-error>
 
-            <button (click)="signUp()" mat-raised-button color="primary">Sign up!</button>
+            <button
+            class="myButton" 
+            mat-raised-button 
+            color="primary" 
+            (click)="signUp()"
+            [disabled]="(authService.loading$ | async)"
+            >
+            <span>Sign Up</span>
+            <ng-container *ngIf="(authService.loading$ | async);">
+                <mat-progress-spinner
+                color="accent"
+                class="example-margin"
+                mode="indeterminate"
+                diameter="28"
+                >
+                </mat-progress-spinner>
+            </ng-container>
+                
+        </button>
+
     
         </form>
 

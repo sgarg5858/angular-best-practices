@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
+import { AuthService, User } from '../auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +8,15 @@ import { AuthService } from '../auth/auth.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private authService:AuthService) { }
+  constructor(public authService:AuthService) { }
 
   ngOnInit(): void {
+  }
+
+  updateDetails(user:Partial<User>)
+  {
+    console.log(user);
+    this.authService.updateNameAndContactNumber(user)
   }
 
 }

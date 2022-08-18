@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UpdateDetailsComponent } from './update-details/update-details.component';
 import { HomeComponent } from './home.component';
+import { MaterialComponentsModule } from '../material-components/material-components.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -11,7 +13,9 @@ import { HomeComponent } from './home.component';
   ],
   exports:[UpdateDetailsComponent,HomeComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialComponentsModule,
+    ReactiveFormsModule
   ]
 })
 export class HomeModule { }

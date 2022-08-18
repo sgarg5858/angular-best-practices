@@ -1,0 +1,22 @@
+
+@mixin flex-center($direction)
+{
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+}
+
+mat-card,form{
+    @include flex-center(column);
+    width:350px;
+}
+mat-form-field{
+    width: 300px;
+    margin: 15px;
+}
+.container{
+    @include flex-center((column));
+    width: 100vw;
+    height: 90vh;
+}

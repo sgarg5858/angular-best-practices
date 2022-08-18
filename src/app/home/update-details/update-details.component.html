@@ -1,1 +1,35 @@
-<p>update-details works!</p>
+<div class="container">
+   <mat-card>
+    <form [formGroup]="userDetailsForm">
+
+        <mat-form-field>
+            <mat-label>Name:</mat-label>
+            <input type="text" matInput formControlName="name">
+
+            <mat-error *ngIf="userDetailsForm.controls?.name?.touched && userDetailsForm.controls?.name?.errors?.['required']">
+                Name is required!
+            </mat-error>
+
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Contact number:</mat-label>
+            <input type="text" matInput formControlName="contact">
+            <mat-error *ngIf="userDetailsForm.controls?.contact?.touched && userDetailsForm.controls?.contact?.errors?.['required']">
+                Contact is required!
+            </mat-error>
+            <mat-error *ngIf="userDetailsForm.controls?.contact?.touched && userDetailsForm.controls?.contact?.errors?.['lengthNotEqualToN']">
+              Please enter 10-digit contact number!
+            </mat-error>
+        </mat-form-field>
+
+        <button 
+        [disabled]="showLoadingIndicator"
+        mat-raised-button 
+        color="primary" 
+        (click)="update()">
+            {{showLoadingIndicator ? 'Updating....' :'Update Details'}}
+        </button>
+    </form>
+   </mat-card>
+</div>

@@ -58,9 +58,16 @@ export class AuthService {
   //Our Reducer we can say!
   updateAuthState(state:AuthState,delay:number):void
   {
+    if(delay===0)
+    {
+      this.authStateSubject.next(state);
+    }
+    else
+    {
     setTimeout(()=>{
       this.authStateSubject.next(state);
     },delay)
+  }
   }
 
   // Utility function to get all users from local storage
@@ -145,13 +152,14 @@ export class AuthService {
     let users =this.getUsersFromLocalStorage();
 
     let userFound = this.checkIfListHasUserWithEmail(email,users);
+
     if(userFound)
     {
       if(userFound.password === password)
       {
         this.updateAuthState({user:userFound,loading:false,authError:""},this.delay);
         console.log("LOGIN WORKED")
-        this.showSnackBar("Login Successful")
+        this.showSnackBar("Login Successful",this.delay)
         this.doNavigate(returnUrl,this.delay);
         
       }
@@ -205,5 +213,19 @@ export class AuthService {
     this.updateAuthState({user:null,loading:false,authError:""},0);
     this.doNavigate('login',0);
     this.showSnackBar("You have been logout out",0)
+  }
+
+  updateNameAndContactNumber(user:Partial<User>){
+
+    this.updateAuthState({...this.authStateSubject.value,loading:true,authError:""},0);
+
+    let updatedUser:User  ={...this.authStateSubject.value.user!,...user};
+    this.updateAuthState({
+      user:updatedUser,
+      loading:false,
+      authError:""
+    },this.delay)
+    this.showSnackBar("Details Updated Successfully",this.delay)
+
   }
 }

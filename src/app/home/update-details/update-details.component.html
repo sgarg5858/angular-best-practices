@@ -23,13 +23,22 @@
             </mat-error>
         </mat-form-field>
 
-        <button 
-        [disabled]="showLoadingIndicator"
-        mat-raised-button 
-        color="primary" 
-        (click)="update()">
+        <div class="buttons">
+            <button 
+            [disabled]="showLoadingIndicator"
+            mat-raised-button 
+            color="accent" 
+            (click)="goBack()">
+            Go Back
+        </button>
+            <button 
+            [disabled]="showLoadingIndicator"
+            mat-raised-button 
+            color="primary" 
+            (click)="update()">
             {{showLoadingIndicator ? 'Updating....' :'Update Details'}}
         </button>
+        </div>
     </form>
    </mat-card>
 </div>

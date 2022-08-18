@@ -1,12 +1,23 @@
-
-
-
 <ng-container *ngIf="authService.user$ | async as user">
-    <app-update-details  
-    [user]="user" 
-    [showLoadingIndicator]="(authService.loading$ | async)!"
-    (updateDetails)="updateDetails($event)"
-    >
 
-    </app-update-details>
+   <ng-container *ngIf="updateMode;else showMode">
+        <app-update-details  
+        [user]="user" 
+        [showLoadingIndicator]="(authService.loading$ | async)!"
+        (updateDetails)="updateDetails($event)"
+        (closeUpdate)="changeToEditMode(false)"
+        >
+
+        </app-update-details>
+   </ng-container>
+
+   <ng-template #showMode>
+        <app-show-details  
+        [user]="user" 
+        (updateMode)="changeToEditMode($event)"
+        >
+        </app-show-details>
+   </ng-template>
+
+
 </ng-container>

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AuthService, User } from '../auth/auth.service';
+import { DELAY } from '../injection-tokens/delay.token';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,13 @@ import { AuthService, User } from '../auth/auth.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public authService:AuthService) { }
+  constructor(public authService:AuthService,@Inject(DELAY) private delay:number) { }
+
+  updateMode:boolean=false;
+  changeToEditMode(updateMode:boolean)
+  {
+    this.updateMode=updateMode;
+  }
 
   ngOnInit(): void {
   }
@@ -16,7 +23,11 @@ export class HomeComponent implements OnInit {
   updateDetails(user:Partial<User>)
   {
     console.log(user);
-    this.authService.updateNameAndContactNumber(user)
+    this.authService.updateNameAndContactNumber(user);
+    
+    setTimeout(()=>{
+      this.updateMode=false;
+    },this.delay)
   }
 
 }

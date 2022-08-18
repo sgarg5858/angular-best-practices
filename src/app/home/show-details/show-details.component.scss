@@ -1,0 +1,19 @@
+
+@mixin flex-center($direction)
+{
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+}
+
+mat-card{
+    @include flex-center(column);
+    width:350px;
+}
+
+.container{
+    @include flex-center((column));
+    width: 100vw;
+    height: 90vh;
+}

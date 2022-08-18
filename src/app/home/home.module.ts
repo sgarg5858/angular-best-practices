@@ -4,18 +4,39 @@ import { UpdateDetailsComponent } from './update-details/update-details.componen
 import { HomeComponent } from './home.component';
 import { MaterialComponentsModule } from '../material-components/material-components.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ShowDetailsComponent } from './show-details/show-details.component';
+import { RouterModule } from '@angular/router';
+import { IsUserLoggedInService } from '../auth/is-user-logged-in.service';
 
 
 
 @NgModule({
   declarations: [
-    UpdateDetailsComponent,HomeComponent
+    UpdateDetailsComponent,HomeComponent, ShowDetailsComponent
   ],
   exports:[UpdateDetailsComponent,HomeComponent],
   imports: [
     CommonModule,
     MaterialComponentsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule.forChild([
+      {
+        path:'home',
+        component:HomeComponent,
+        canActivate:[IsUserLoggedInService],
+        children:[
+          {
+            path:'show-details',
+            component:ShowDetailsComponent
+          },
+          {
+            path:'update-details',
+            component:UpdateDetailsComponent,
+            canDeactivate:[]
+          }
+        ]
+      }
+    ])
   ]
 })
 export class HomeModule { }

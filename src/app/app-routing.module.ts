@@ -13,9 +13,6 @@ const routes: Routes = [
     path:'signup',component:SignUpComponent,
   },
   {
-    path:'home',component:HomeComponent,canActivate:[IsUserLoggedInService]
-  },
-  {
     path:'login',component:LogInComponent
   },
   {

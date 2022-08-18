@@ -21,7 +21,7 @@ export class UpdateDetailsComponent implements OnInit {
    }
   }
   @Output() updateDetails = new EventEmitter<Partial<User>>();
-
+  @Output() closeUpdate = new EventEmitter<boolean>();
   constructor() { }
 
   userDetailsForm = new FormGroup({
@@ -40,6 +40,10 @@ export class UpdateDetailsComponent implements OnInit {
       console.log(name,contact)
       this.updateDetails.next({name:name.value!,contact:contact.value!});
     }
+  }
+  goBack()
+  {
+    this.closeUpdate.emit(false);
   }
 
 }

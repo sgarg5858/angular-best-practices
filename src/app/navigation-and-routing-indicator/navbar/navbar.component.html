@@ -1,9 +1,14 @@
 <app-routing-indicator></app-routing-indicator>
 <mat-toolbar>
     <nav>
-        <a [routerLink]="['login']">Login</a>
-        <a [routerLink]="['signup']">SignUp</a>
-        <a [routerLink]="['home']">Home</a>
-        <a [routerLink]="['comments']">Comments</a>
+        <ng-container *ngIf="(authService.user$ | async) as user;else notLoggedIn">
+            <a style="color: dodgerblue;" [routerLink]="['home']">Hello {{user?.name}}</a>
+            <a [routerLink]="['posts']">Posts</a>
+            <a [routerLink]="['comments']">Comments</a>
+        </ng-container>
+        <ng-template #notLoggedIn>
+            <a [routerLink]="['login']">Login</a>
+            <a [routerLink]="['signup']">SignUp</a>
+        </ng-template>
     </nav>
 </mat-toolbar>

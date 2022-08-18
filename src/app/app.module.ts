@@ -8,20 +8,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialComponentsModule } from './material-components/material-components.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavigationAndRoutingIndicatorModule } from './navigation-and-routing-indicator/navigation-and-routing-indicator.module';
-import { HomeComponent } from './home/home.component';
 import {HttpClientModule} from '@angular/common/http'
 import { InitializerModule } from './initializer/initializer.module';
 import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
+import { HomeModule } from './home/home.module';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     AuthModule,
+    HomeModule,
     BrowserAnimationsModule,
     MaterialComponentsModule,
     ReactiveFormsModule,

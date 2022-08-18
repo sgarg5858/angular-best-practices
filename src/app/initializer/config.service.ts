@@ -28,6 +28,7 @@ export class ConfigService {
     .pipe(delay(1000))
     .subscribe({
       next:(config:Config)=>{
+        
         this.configBehaviorSubject.next(config)
       },
       error: (error)=>{

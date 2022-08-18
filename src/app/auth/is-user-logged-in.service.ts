@@ -18,15 +18,12 @@ export class IsUserLoggedInService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
 
     return this.authService.user$.pipe(
-      delay(this.delay),
-      map((user)=>user? true : false),
-      tap((loggedIn:boolean)=>{
-        if(!loggedIn)
-        {
-          //check this if it works?
-          this.router.navigate(['login'],{queryParams:{returnUrl:route.url}});
-        }
-      })
+      map((user)=>user ? true : false),
+      map((isLoggedIn)=> isLoggedIn ? 
+      isLoggedIn : 
+      this.router.createUrlTree(['login'],{queryParams:{returnUrl:route.url}}) 
+      ),
+      delay(this.delay)
     )
   }
 }

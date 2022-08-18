@@ -16,6 +16,7 @@ export class CanLoadLazyModulesService implements CanLoad{
     ) { }
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
 
+    console.log(segments);
     return this.authService.user$.pipe(
       delay(this.delay),
       tap((user)=>{console.log(user)}),

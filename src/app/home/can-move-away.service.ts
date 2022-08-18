@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree } f
 import { Observable } from 'rxjs';
 
 export interface DataEntryComponent{
-  canExit:()=>boolean
+  canExit:()=>boolean | Observable<boolean> | Promise<boolean>
 }
 
 @Injectable({

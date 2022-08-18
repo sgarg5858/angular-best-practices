@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { AuthService, User } from '../auth/auth.service';
 import { DELAY } from '../injection-tokens/delay.token';
 import { DataEntryComponent } from './can-move-away.service';
@@ -10,6 +10,24 @@ import { DataEntryComponent } from './can-move-away.service';
 })
 export class HomeComponent  implements OnInit,DataEntryComponent {
 
+  canExit()
+  {
+    if(this.updateMode)
+    {
+      if(confirm("Data Changes will be lost. Are you sure you want to leave"))
+      {
+        return true;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  doSomething($event:any) {
+    if(this.updateMode) $event.returnValue=false;
+  }
+
   constructor(public authService:AuthService,@Inject(DELAY) private delay:number) { }
 
   updateMode:boolean=false;
@@ -19,6 +37,7 @@ export class HomeComponent  implements OnInit,DataEntryComponent {
   }
 
   ngOnInit(): void {
+   
   }
 
   updateDetails(user:Partial<User>)
@@ -32,17 +51,6 @@ export class HomeComponent  implements OnInit,DataEntryComponent {
   }
   //for our canDeactivate guard to work we need to make one function
   // canDeactivate guard will call
-  canExit()
-  {
-    if(this.updateMode)
-    {
-      if(confirm("Data Changes will be lost. Are you sure you want to leave"))
-      {
-        return true;
-      }
-      return false;
-    }
-    return true;
-  }
+  
 
 }

@@ -5,6 +5,7 @@
             <a style="color: dodgerblue;" [routerLink]="['home']">Hello {{user?.name}}</a>
             <a [routerLink]="['posts']">Posts</a>
             <a [routerLink]="['comments']">Comments</a>
+            <div (click)="logout()">Logout</div>
         </ng-container>
         <ng-template #notLoggedIn>
             <a [routerLink]="['login']">Login</a>

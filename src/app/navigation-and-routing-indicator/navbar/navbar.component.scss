@@ -3,3 +3,17 @@ a{
     text-decoration: none;
     margin: 10px;
 }
+nav{
+    display: flex;
+    div{
+        margin-left: 75%;
+        margin-top: 10px;
+        cursor: pointer;
+        &:hover{
+            color:red;
+        }
+        &:active{
+            transform: scale(0.96);
+        }
+    }
+}

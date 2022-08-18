@@ -193,10 +193,17 @@ export class AuthService {
     },delay)
   }
 
-  showSnackBar(data:string)
+  showSnackBar(data:string,delay?:number)
   {
     setTimeout(()=>{
     this._snackBar.openFromComponent(CustomSnackbarComponent,{data,duration:1000})
-    },this.delay)
+    },delay??this.delay)
+  }
+
+  logout()
+  {
+    this.updateAuthState({user:null,loading:false,authError:""},0);
+    this.doNavigate('login',0);
+    this.showSnackBar("You have been logout out",0)
   }
 }

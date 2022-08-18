@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ShowDetailsComponent } from './show-details/show-details.component';
 import { RouterModule } from '@angular/router';
 import { IsUserLoggedInService } from '../auth/is-user-logged-in.service';
+import { CanMoveAwayService } from './can-move-away.service';
 
 
 
@@ -24,7 +25,7 @@ import { IsUserLoggedInService } from '../auth/is-user-logged-in.service';
         path:'home',
         component:HomeComponent,
         canActivate:[IsUserLoggedInService],
-        canDeactivate:[]
+        canDeactivate:[CanMoveAwayService]
         // children:[
         //   {
         //     path:'show-details',

@@ -24,17 +24,18 @@ import { IsUserLoggedInService } from '../auth/is-user-logged-in.service';
         path:'home',
         component:HomeComponent,
         canActivate:[IsUserLoggedInService],
-        children:[
-          {
-            path:'show-details',
-            component:ShowDetailsComponent
-          },
-          {
-            path:'update-details',
-            component:UpdateDetailsComponent,
-            canDeactivate:[]
-          }
-        ]
+        canDeactivate:[]
+        // children:[
+        //   {
+        //     path:'show-details',
+        //     component:ShowDetailsComponent
+        //   },
+        //   {
+        //     path:'update-details',
+        //     component:UpdateDetailsComponent,
+        //     canDeactivate:[]
+        //   }
+        // ]
       }
     ])
   ]

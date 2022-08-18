@@ -219,7 +219,20 @@ export class AuthService {
 
     this.updateAuthState({...this.authStateSubject.value,loading:true,authError:""},0);
 
-    let updatedUser:User  ={...this.authStateSubject.value.user!,...user};
+    const updatedUser:User  ={...this.authStateSubject.value.user!,...user};
+
+    //Update Local Storage
+    let users:User[] = this.getUsersFromLocalStorage();
+    users=users.map((user:User)=>{
+      if(user.email === updatedUser.email)
+      {
+        user={...updatedUser};
+      }
+      return user;
+    })
+    this.myLocalStorage.setItem('users',JSON.stringify(users));
+    
+  // Update State that operation is done
     this.updateAuthState({
       user:updatedUser,
       loading:false,

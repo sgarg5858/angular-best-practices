@@ -19,7 +19,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     RouterModule.forChild([
       {
-        path:'',component:CommentsComponent
+        path:'',component:ContainerComponent
       }
     ])
   ]

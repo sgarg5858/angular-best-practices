@@ -17,7 +17,12 @@ export class HomeComponent  implements OnInit,DataEntryComponent {
     if(this.updateMode)
     {
      const componentRef= this.matDialog.open(CustomDialogComponent,
-        {data:"Data Changes will be lost. Are you sure you want to leave?"})
+        {
+          data:"Data Changes will be lost. Are you sure you want to leave?",
+          width:"300",
+          height:"200",
+          disableClose:true
+        })
 
       return componentRef.afterClosed();
 
@@ -26,8 +31,8 @@ export class HomeComponent  implements OnInit,DataEntryComponent {
   }
 
   @HostListener('window:beforeunload', ['$event'])
-  doSomething($event:any) {
-    if(this.updateMode) $event.returnValue=false;
+  onBeforeReload(event:BeforeUnloadEvent) {
+    if(this.updateMode) event.returnValue=false;
   }
 
   constructor(

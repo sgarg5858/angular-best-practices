@@ -12,7 +12,6 @@ export class ResolvePostsService  implements Resolve<Post[]>{
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot)
   : Post[] | Observable<Post[]> | Promise<Post[]> 
   {
-      this.postService.getPosts();
-      return this.postService.posts$ as Observable<Post[]> ;
+      return this.postService.getPosts() as Observable<Post[]>;
   }
 }

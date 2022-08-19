@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, filter, skip, take } from 'rxjs';
+import { BehaviorSubject, catchError, filter, of, skip, take } from 'rxjs';
 import { Config, ConfigService } from '../initializer/config.service';
 import { CustomSnackbarComponent } from '../shared/custom-snackbar/custom-snackbar.component';
 
@@ -45,21 +45,18 @@ export class PostsService {
 
    getPosts()
    {
-    return this.httpClient.get<Post[]>(`${this.baseURL}posts`).subscribe(
+    return this.httpClient.get<Post[]>(`${this.baseURL}postss`).pipe(
+      catchError((err)=>
       {
-        next:(posts:Post[])=>{
-          this.postsSubject.next(posts);
-        },
-        error: (error)=>{
-          this.postsSubject.next(null);
-
-          
-          this.matSnackBar.openFromComponent(CustomSnackbarComponent,{
-            data:"Couldn't fetch posts :(",
-            duration:3000
-          })
-        }
-      }
+        this.matSnackBar.openFromComponent(
+          CustomSnackbarComponent,
+          {
+            data:"Couldn't load posts",
+            duration:2000
+          }
+        )
+        return of(null)
+      })
     )
    }
 

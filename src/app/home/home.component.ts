@@ -1,6 +1,8 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService, User } from '../auth/auth.service';
 import { DELAY } from '../injection-tokens/delay.token';
+import { CustomDialogComponent } from '../shared/custom-dialog/custom-dialog.component';
 import { DataEntryComponent } from './can-move-away.service';
 
 @Component({
@@ -14,11 +16,11 @@ export class HomeComponent  implements OnInit,DataEntryComponent {
   {
     if(this.updateMode)
     {
-      if(confirm("Data Changes will be lost. Are you sure you want to leave"))
-      {
-        return true;
-      }
-      return false;
+     const componentRef= this.matDialog.open(CustomDialogComponent,
+        {data:"Data Changes will be lost. Are you sure you want to leave?"})
+
+      return componentRef.afterClosed();
+
     }
     return true;
   }
@@ -28,9 +30,14 @@ export class HomeComponent  implements OnInit,DataEntryComponent {
     if(this.updateMode) $event.returnValue=false;
   }
 
-  constructor(public authService:AuthService,@Inject(DELAY) private delay:number) { }
+  constructor(
+    public authService:AuthService,
+    @Inject(DELAY) private delay:number,
+    private matDialog:MatDialog
+    ) { }
 
   updateMode:boolean=false;
+
   changeToEditMode(updateMode:boolean)
   {
     this.updateMode=updateMode;

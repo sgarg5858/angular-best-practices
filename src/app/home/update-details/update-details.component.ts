@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { take } from 'rxjs';
 import { User } from 'src/app/auth/auth.service';
 import { isLength } from 'src/app/validators/checkIfLengthisN';
 
@@ -17,11 +18,12 @@ export class UpdateDetailsComponent implements OnInit {
    if(user)
    {
     let {email,name,contact}=user;
-    this.userDetailsForm.patchValue({name,contact});
+    this.userDetailsForm.patchValue({name,contact},{emitEvent:false});
    }
   }
   @Output() updateDetails = new EventEmitter<Partial<User>>();
   @Output() closeUpdate = new EventEmitter<boolean>();
+  @Output() formValueChanged= new EventEmitter();
   constructor() { }
 
   userDetailsForm = new FormGroup({
@@ -30,6 +32,9 @@ export class UpdateDetailsComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.userDetailsForm.valueChanges.pipe(take(1)).subscribe(()=>{
+      this.formValueChanged.emit();
+    })
   }
   update()
   {

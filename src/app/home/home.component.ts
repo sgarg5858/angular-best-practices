@@ -14,7 +14,7 @@ export class HomeComponent  implements OnInit,DataEntryComponent {
 
   canExit()
   {
-    if(this.updateMode)
+    if(this.updateMode && this.anyDataUnSaved)
     {
      const componentRef= this.matDialog.open(CustomDialogComponent,
         {
@@ -32,7 +32,7 @@ export class HomeComponent  implements OnInit,DataEntryComponent {
 
   @HostListener('window:beforeunload', ['$event'])
   onBeforeReload(event:BeforeUnloadEvent) {
-    if(this.updateMode) event.returnValue=false;
+    if(this.updateMode && this.anyDataUnSaved) event.returnValue=false;
   }
 
   constructor(
@@ -42,10 +42,17 @@ export class HomeComponent  implements OnInit,DataEntryComponent {
     ) { }
 
   updateMode:boolean=false;
+  anyDataUnSaved:boolean=false;
+
+  unsavedData()
+  {
+    this.anyDataUnSaved=true;
+  }
 
   changeToEditMode(updateMode:boolean)
   {
     this.updateMode=updateMode;
+    this.anyDataUnSaved=false;
   }
 
   ngOnInit(): void {
@@ -59,6 +66,7 @@ export class HomeComponent  implements OnInit,DataEntryComponent {
 
     setTimeout(()=>{
       this.updateMode=false;
+      this.anyDataUnSaved=false;
     },this.delay)
   }
   //for our canDeactivate guard to work we need to make one function

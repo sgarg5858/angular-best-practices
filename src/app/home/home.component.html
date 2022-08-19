@@ -6,6 +6,7 @@
         [showLoadingIndicator]="(authService.loading$ | async)!"
         (updateDetails)="updateDetails($event)"
         (closeUpdate)="changeToEditMode(false)"
+        (formValueChanged)="unsavedData()"
         >
 
         </app-update-details>

@@ -24,6 +24,7 @@ const routes: Routes = [
       path:'posts',
       loadChildren : ()=>  defer(()=>import('./posts/posts.module').then((m=>m.PostsModule))),
       data:{preload:true,delay:4000}
+      
     }
 ];
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, ResolveEnd, ResolveStart, RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/router';
-import { filter, map, Observable, tap } from 'rxjs';
+import { filter, map, merge, Observable, tap } from 'rxjs';
+import { CustomSnackbarComponent } from 'src/app/shared/custom-snackbar/custom-snackbar.component';
 
 @Component({
   selector: 'app-routing-indicator',
@@ -9,42 +11,46 @@ import { filter, map, Observable, tap } from 'rxjs';
 })
 export class RoutingIndicatorComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,private matSnackbar:MatSnackBar) { }
 
   public loading$:Observable<boolean>|undefined;
+  private showLoader$!:Observable<boolean>;
+  private hideLoader$!:Observable<boolean>;
 
   ngOnInit(): void {
+    this.approach1();
+  }
 
-    this.loading$ = this.router.events.pipe(
-      tap((event)=>{
+  approach1()
+  {
+    this.showLoader$=this.router.events.
+    pipe(
+      filter((event)=> event instanceof NavigationStart),
+      map((event)=>true)
+      )
 
-        //USEFUL When loading a lazy module!
-        if(event instanceof RouteConfigLoadStart)
-        {
-          console.log("We will start loading lazy module now",event.route)
-        }
-        if(event instanceof RouteConfigLoadEnd)
-        {
-          console.log("We successfully loaded lazy module",event.route)
-        }
-        //useful when using resolver
-        if(event instanceof ResolveStart)
-        {
-          console.log("We will start loading data via resolver for",event.url)
-        }
-        if(event instanceof ResolveEnd)
-        {
-          console.log("We successfully loaded data via resolver via",event.url,event.state)
-        }
+      this.hideLoader$=this.router.events.
+    pipe(
+      filter(
+        (event)=> event instanceof NavigationEnd || 
+                  event instanceof NavigationCancel || 
+                  event instanceof NavigationError),
+      map((event)=>false)
+      )
+      
+      this.loading$=merge(this.showLoader$,this.hideLoader$);
+  }
 
-      }),
-      filter((event)=>{
-        return event instanceof NavigationStart || event instanceof NavigationEnd ||
-               event instanceof NavigationCancel || event instanceof NavigationError
-      })
-      ,map((event)=> event instanceof NavigationStart)
+  approach2()
+  {
+    this.loading$= this.router.events.pipe(
+      filter((event)=> event instanceof NavigationStart ||
+                       event instanceof NavigationEnd || 
+                       event instanceof NavigationCancel || 
+                       event instanceof NavigationError 
+            ),
+      map((event)=>event instanceof NavigationStart)      
     )
-
   }
 
 }

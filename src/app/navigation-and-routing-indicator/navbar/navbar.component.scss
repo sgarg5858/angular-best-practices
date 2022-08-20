@@ -1,7 +1,22 @@
-a{
+
+@mixin  flex-center($direction) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+}
+a,div{
+    @include flex-center(column);
     color:  white;
     text-decoration: none;
-    margin: 10px;
+    box-sizing: border-box;
+    width: max-content;
+    padding: 10px 5px;
+    height: 40px;
+    border: 1px solid white;
+    border-radius: 5px;
+    margin-left: 10px;
+
 }
 nav{
     display: flex;
@@ -16,4 +31,10 @@ nav{
             transform: scale(0.96);
         }
     }
+}
+
+.activeLink{
+    background-color: white;
+    color: black;
+    border-radius: 5px;
 }

@@ -14,7 +14,8 @@ export class ResolvePostsService  implements Resolve<Post[]>{
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot)
   : Post[] | Observable<Post[]> | Promise<Post[]> 
   {
-      return < Observable<Post[]>>this.postService.getPosts().pipe(
+
+      return < Observable<Post[]> > this.postService.getPosts().pipe(
         delay(2000),
         catchError((err)=>
         {

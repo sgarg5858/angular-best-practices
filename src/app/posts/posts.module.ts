@@ -15,7 +15,8 @@ import { ResolvePostsService } from './resolve-posts.service';
     RouterModule.forChild([
       {
         path:'',component:PostsComponent,
-        resolve:{ posts: ResolvePostsService}
+        resolve:{ posts: ResolvePostsService},
+        title:"Posts"
       }
     ])
   ]

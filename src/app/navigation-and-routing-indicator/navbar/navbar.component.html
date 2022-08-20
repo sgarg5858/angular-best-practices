@@ -2,14 +2,17 @@
 <mat-toolbar>
     <nav>
         <ng-container *ngIf="(authService.user$ | async) as user;else notLoggedIn">
-            <a style="color: dodgerblue;" [routerLink]="['home']">Hello {{user?.name}}</a>
-            <a [routerLink]="['posts']">Posts</a>
-            <a [routerLink]="['comments']">Comments</a>
+            <a style="color: dodgerblue;" 
+            [routerLink]="['home']"
+            [routerLinkActive]="'activeLink'"
+            >Hello {{user?.name}}</a>
+            <a [routerLink]="['posts']" [routerLinkActive]="'activeLink'">Posts</a>
+            <a [routerLink]="['comments']" [routerLinkActive]="'activeLink'">Comments</a>
             <div (click)="logout()">Logout</div>
         </ng-container>
         <ng-template #notLoggedIn>
-            <a [routerLink]="['login']">Login</a>
-            <a [routerLink]="['signup']">SignUp</a>
+            <a [routerLink]="['login']" [routerLinkActive]="'activeLink'">Login</a>
+            <a [routerLink]="['signup']" [routerLinkActive]="'activeLink'">SignUp</a>
         </ng-template>
     </nav>
 </mat-toolbar>

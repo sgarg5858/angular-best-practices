@@ -15,8 +15,32 @@ export class TabGroupComponent implements AfterContentChecked {
 
   
   ngAfterContentChecked(): void {
-      console.log(this.tabs);
-      this.tabs?.changes.subscribe(console.log);
+      if(this.tabs)
+      {
+       this.markFirstSelectedIfNoOneIsSelectedInitially(this.tabs);
+      }
+  }
+
+  markFirstSelectedIfNoOneIsSelectedInitially(tabs:QueryList<TabComponent>)
+  {
+    const selectedTab = this.tabs?.find((tab)=>tab.selected);
+    if(!selectedTab)
+    {
+      if(tabs.length>0)
+      {
+        tabs.first.selected=true;
+      }
+    }
+  }
+  select(tab:TabComponent)
+  {
+    if(this.tabs)
+    {
+      this.tabs.forEach((tab,index)=>{
+       tab.selected=false;
+      })
+      tab.selected=true;
+    }
   }
 
 }

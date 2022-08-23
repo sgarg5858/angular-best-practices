@@ -1,6 +1,6 @@
 <div class="container">
-    
 
+    <button (click)="toggle()">Toggle</button>
     <app-tab-group>
 
         <app-tab label="login">
@@ -43,7 +43,7 @@
 
         </app-tab>
 
-        <app-tab label="Contact">
+        <app-tab label="Contact" *ngIf="showContactForm">
 
             <form [formGroup]="contactForm">
                 <mat-form-field>

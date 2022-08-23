@@ -1,7 +1,10 @@
 <ng-container *ngIf="tabs !== undefined">
     <ul class="tab-group-buttons">
-        Because Query List is an iterable
-        <li *ngFor="let tab of tabs">
+        <!-- Because Query List is an iterable -->
+        <li [ngClass]="{selected:tab.selected}" 
+             *ngFor="let tab of tabs" 
+             (click)="select(tab)"
+             >
             {{tab.label}}
         </li>
     </ul>

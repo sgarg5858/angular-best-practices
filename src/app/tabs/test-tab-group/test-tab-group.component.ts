@@ -8,6 +8,11 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class TestTabGroupComponent implements OnInit {
 
+  showContactForm:boolean=false;
+  toggle()
+  {
+    this.showContactForm=!this.showContactForm;
+  }
   constructor() { }
 
   ngOnInit(): void {

@@ -8,11 +8,12 @@
             >Hello {{user?.name}}</a>
             <a [routerLink]="['posts']" [routerLinkActive]="'activeLink'">Posts</a>
             <a [routerLink]="['comments']" [routerLinkActive]="'activeLink'">Comments</a>
+            <a [routerLink]="['tabs']" [routerLinkActive]="'activeLink'">Tabs</a>
             <div (click)="logout()">Logout</div>
         </ng-container>
         <ng-template #notLoggedIn>
-            <a [routerLink]="['login']" [routerLinkActive]="'activeLink'">Login</a>
-            <a [routerLink]="['signup']" [routerLinkActive]="'activeLink'">SignUp</a>
+            <a [routerLink]="['login']" [replaceUrl]="false"  [routerLinkActive]="'activeLink'">Login</a>
+            <a [routerLink]="['signup']"  [replaceUrl]="false" [routerLinkActive]="'activeLink'">SignUp</a>
         </ng-template>
     </nav>
 </mat-toolbar>

@@ -25,7 +25,18 @@ const routes: Routes = [
       loadChildren : ()=>  defer(()=>import('./posts/posts.module').then((m=>m.PostsModule))),
       data:{preload:true,delay:4000}
       
-    }
+    },
+    {
+      path:'tabs',
+      loadChildren : ()=>  defer(()=>import('./tabs/tabs.module').then((m=>m.TabsModule))),
+      
+    },
+    {
+      path:'',
+      redirectTo:'home',
+      pathMatch:'full'
+      }
+    
 ];
 
 @NgModule({

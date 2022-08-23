@@ -27,7 +27,7 @@ import { HomeModule } from './home/home.module';
     ReactiveFormsModule,
     NavigationAndRoutingIndicatorModule,
     InitializerModule,
-    NgxLoadingButtonsModule
+    NgxLoadingButtonsModule,
 
   ],
   providers: [],

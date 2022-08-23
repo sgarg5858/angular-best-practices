@@ -5,8 +5,9 @@ $text:rgba(26,38,35,0.8);
 $box-shadow:0 1px 16px 0 rgba(0,0,0,0.2);
 $tab-border: 1px solid $secondary;
 
-.tab-group{
+:host{
     box-shadow: $box-shadow;
+    display: block;
 
     .tab-group-buttons{
         list-style: none;

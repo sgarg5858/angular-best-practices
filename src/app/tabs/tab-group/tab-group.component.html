@@ -1,9 +1,10 @@
-<div class="tab-group">
+<ng-container *ngIf="tabs !== undefined">
     <ul class="tab-group-buttons">
-        <li class="selected">Login</li>
-        <li >Signup</li>
-        <li >Contact</li>
+        Because Query List is an iterable
+        <li *ngFor="let tab of tabs">
+            {{tab.label}}
+        </li>
     </ul>
+</ng-container>
     <!-- For now show all tabs data! -->
     <ng-content></ng-content>
-</div>

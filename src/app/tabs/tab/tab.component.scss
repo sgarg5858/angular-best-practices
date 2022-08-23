@@ -6,7 +6,8 @@ $box-shadow:0 1px 16px 0 rgba(0,0,0,0.2);
 $tab-border: 1px solid $secondary;
 
 
-.tab{
+:host{
+    display: block;
     border-left: $tab-border ;
     border-bottom: $tab-border ;
     border-right: $tab-border ;

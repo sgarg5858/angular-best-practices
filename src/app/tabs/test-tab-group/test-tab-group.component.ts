@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 import { TabGroupComponent } from '../tab-group/tab-group.component';
 import { TabComponent } from '../tab/tab.component';
 
@@ -8,9 +9,12 @@ import { TabComponent } from '../tab/tab.component';
   templateUrl: './test-tab-group.component.html',
   styleUrls: ['./test-tab-group.component.scss']
 })
-export class TestTabGroupComponent implements OnInit {
+export class TestTabGroupComponent implements OnInit,AfterViewChecked {
 
   @ViewChild(TabGroupComponent) tabGroup:TabGroupComponent | undefined;
+  @ViewChild(MatButton) matButton:MatButton|undefined ;
+
+  
 
   selectTab(ref:TabComponent)
   {
@@ -26,6 +30,9 @@ export class TestTabGroupComponent implements OnInit {
     this.showContactForm=!this.showContactForm;
   }
   constructor() { }
+  ngAfterViewChecked(): void {
+    console.log(this.matButton?._elementRef.nativeElement)
+  }
 
   ngOnInit(): void {
   }

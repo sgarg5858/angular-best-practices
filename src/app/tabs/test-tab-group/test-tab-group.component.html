@@ -3,7 +3,7 @@
     <button (click)="toggle()">Toggle</button>
 
     <ng-template #headerButtons>
-        <button mat-raised-button
+        <!-- <button mat-raised-button
         (click)="selectTab(login)"
         >Login</button>
         <button mat-stroked-button
@@ -12,7 +12,15 @@
         <button mat-stroked-button 
         *ngIf="showContactForm"
         (click)="selectTab(contact)"
-        >Contact</button>
+        >Contact</button> -->
+        <ul class="tab-group-buttons">
+        <li [ngClass]="{selected:tab.selected}" 
+        *ngFor="let tab of tabGroup.tabs" 
+        (click)="selectTab(tab)"
+        >
+       {{tab.label}}
+         </li>
+    </ul>
     </ng-template >
 
     <app-tab-group #tabGroup [headerTemplate]="headerButtons">

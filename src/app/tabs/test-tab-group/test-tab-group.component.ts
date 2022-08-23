@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { TabGroupComponent } from '../tab-group/tab-group.component';
+import { TabComponent } from '../tab/tab.component';
 
 @Component({
   selector: 'app-test-tab-group',
@@ -7,6 +9,16 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./test-tab-group.component.scss']
 })
 export class TestTabGroupComponent implements OnInit {
+
+  @ViewChild(TabGroupComponent) tabGroup:TabGroupComponent | undefined;
+
+  selectTab(ref:TabComponent)
+  {
+    if(this.tabGroup)
+    {
+      this.tabGroup.select(ref);
+    }
+  }
 
   showContactForm:boolean=false;
   toggle()

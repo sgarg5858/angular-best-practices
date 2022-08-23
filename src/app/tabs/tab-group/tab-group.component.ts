@@ -1,4 +1,4 @@
-import { AfterContentChecked, Component, ContentChild, ContentChildren, OnInit, QueryList } from '@angular/core';
+import { AfterContentChecked, Component, ContentChild, ContentChildren, Input, OnInit, QueryList, TemplateRef } from '@angular/core';
 import { TabComponent } from '../tab/tab.component';
 
 @Component({
@@ -9,6 +9,7 @@ import { TabComponent } from '../tab/tab.component';
 export class TabGroupComponent implements AfterContentChecked {
 
   constructor() { }
+  @Input() headerTemplate:TemplateRef<{tabs:QueryList<TabComponent>}>|undefined;
 
   //We gonna check if it updates tabs dynamically
   @ContentChildren(TabComponent) tabs:QueryList<TabComponent>|undefined;
@@ -19,6 +20,11 @@ export class TabGroupComponent implements AfterContentChecked {
       {
        this.markFirstSelectedIfNoOneIsSelectedInitially(this.tabs);
       }
+  }
+
+  get tabsContext()
+  {
+    return {tabs:this.tabs};
   }
 
   markFirstSelectedIfNoOneIsSelectedInitially(tabs:QueryList<TabComponent>)
@@ -32,6 +38,7 @@ export class TabGroupComponent implements AfterContentChecked {
       }
     }
   }
+
   select(tab:TabComponent)
   {
     if(this.tabs)
@@ -41,6 +48,10 @@ export class TabGroupComponent implements AfterContentChecked {
       })
       tab.selected=true;
     }
+  }
+  queryAndSelectTab()
+  {
+    
   }
 
 }

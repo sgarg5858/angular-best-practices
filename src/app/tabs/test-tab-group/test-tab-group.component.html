@@ -1,9 +1,23 @@
 <div class="container">
 
     <button (click)="toggle()">Toggle</button>
-    <app-tab-group>
 
-        <app-tab label="login">
+    <ng-template #headerButtons>
+        <button mat-raised-button
+        (click)="selectTab(login)"
+        >Login</button>
+        <button mat-stroked-button
+        (click)="selectTab(signup)"
+        >Sign Up</button>
+        <button mat-stroked-button 
+        *ngIf="showContactForm"
+        (click)="selectTab(contact)"
+        >Contact</button>
+    </ng-template >
+
+    <app-tab-group #tabGroup [headerTemplate]="headerButtons">
+
+        <app-tab label="login" #login>
 
             <form [formGroup]="loginForm">
                 <mat-form-field>
@@ -21,7 +35,7 @@
 
         </app-tab>
 
-        <app-tab label="Signup">
+        <app-tab label="Signup" #signup>
 
             <form [formGroup]="signupForm">
                 <mat-form-field>
@@ -43,7 +57,7 @@
 
         </app-tab>
 
-        <app-tab label="Contact" *ngIf="showContactForm">
+        <app-tab label="Contact" #contact>
 
             <form [formGroup]="contactForm">
                 <mat-form-field>

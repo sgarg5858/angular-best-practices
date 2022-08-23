@@ -1,10 +1,71 @@
 <div class="container">
     
 
-    
+    <app-tab-group>
 
+        <app-tab label="login">
 
-    <div class="tab-panel">
+            <form [formGroup]="loginForm">
+                <mat-form-field>
+                    <mat-label>Email:</mat-label>
+                    <input matInput type="email" formControlName="email"/>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Password:</mat-label>
+                    <input matInput type="password" formControlName="password"/>
+                </mat-form-field>
+                <button mat-raised-button color="primary">
+                    Login
+                </button>
+            </form>
+
+        </app-tab>
+
+        <app-tab label="Signup">
+
+            <form [formGroup]="signupForm">
+                <mat-form-field>
+                    <mat-label>Email:</mat-label>
+                    <input matInput type="email" formControlName="email"/>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Password:</mat-label>
+                    <input matInput type="password" formControlName="password"/>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Confirm Password:</mat-label>
+                    <input matInput type="password" formControlName="confirmPassword"/>
+                </mat-form-field>
+                <button mat-raised-button color="primary">
+                    Sign Up!
+                </button>
+            </form>
+
+        </app-tab>
+
+        <app-tab label="Contact">
+
+            <form [formGroup]="contactForm">
+                <mat-form-field>
+                    <mat-label>Email:</mat-label>
+                    <input matInput type="email" formControlName="email"/>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Message:</mat-label>
+                    <input matInput type="text" formControlName="message"/>
+                </mat-form-field>
+                <button mat-raised-button color="primary">
+                    Login
+                </button>
+            </form>
+
+        </app-tab>
+        
+    </app-tab-group>
+
+</div>
+
+    <!-- <div class="tab-panel">
 
         <ul class="tab-panel-buttons">
             <li class="selected">Login</li>
@@ -66,4 +127,4 @@
 
     </div>
 
-</div> 
+</div>  -->

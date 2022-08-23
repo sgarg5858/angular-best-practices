@@ -5,10 +5,10 @@ $text:rgba(26,38,35,0.8);
 $box-shadow:0 1px 16px 0 rgba(0,0,0,0.2);
 $tab-border: 1px solid $secondary;
 
-.tab-panel{
+.tab-group{
     box-shadow: $box-shadow;
 
-    .tab-panel-buttons{
+    .tab-group-buttons{
         list-style: none;
         text-align: left;
         margin-bottom: 0px;
@@ -36,10 +36,10 @@ $tab-border: 1px solid $secondary;
             }
         }
     }
-    .tab{
-        border-left: $tab-border ;
-        border-bottom: $tab-border ;
-        border-right: $tab-border ;
-        padding: 15px 25px;
-    }
+    // .tab{
+    //     border-left: $tab-border ;
+    //     border-bottom: $tab-border ;
+    //     border-right: $tab-border ;
+    //     padding: 15px 25px;
+    // }
 }

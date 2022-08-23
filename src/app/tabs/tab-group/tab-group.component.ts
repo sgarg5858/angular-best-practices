@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ContentChild, OnInit, QueryList } from '@angular/core';
+import { TabComponent } from '../tab/tab.component';
 
 @Component({
   selector: 'app-tab-group',
@@ -8,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class TabGroupComponent implements OnInit {
 
   constructor() { }
+
+  @ContentChild(TabComponent) tabs:QueryList<TabComponent>|undefined;
 
   ngOnInit(): void {
   }

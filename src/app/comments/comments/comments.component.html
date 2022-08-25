@@ -1,1 +1,19 @@
-<p>comments works!</p>
+<ng-container *ngIf="commentService.comments$ | async as comments;else loading">
+
+    <div class="container" *ngIf="comments.length > 0;else apiError">
+        <cdk-virtual-scroll-viewport class="comments"  itemSize="60" style="height: 75vh">
+            <app-comment *cdkVirtualFor="let comment of comments" [comment]="comment">
+
+            </app-comment>
+        </cdk-virtual-scroll-viewport>
+       
+    </div>
+    <ng-template #apiError>
+        Couldn't fetch posts
+    </ng-template>
+
+
+</ng-container>
+<ng-template #loading>
+    <h1>Loading Comments</h1>
+</ng-template>

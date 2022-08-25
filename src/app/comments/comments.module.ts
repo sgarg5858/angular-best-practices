@@ -5,6 +5,7 @@ import { CommentComponent } from './comment/comment.component';
 import { ContainerComponent } from './container/container.component';
 import { CommentDetailComponent } from './comment-detail/comment-detail.component';
 import { RouterModule } from '@angular/router';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 
 
@@ -17,9 +18,10 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
+    ScrollingModule,
     RouterModule.forChild([
       {
-        path:'',component:ContainerComponent
+        path:'',component:CommentsComponent
       }
     ])
   ]

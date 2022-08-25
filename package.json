@@ -4,9 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build":"ng build",
+    "build-with-stats": "ng build --stats-json",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "analyze-by-wba": "webpack-bundle-analyzer dist/angular-practice/stats.json",
+    "analyze-by-sme": "source-map-explorer dist/angular-practice/**/*.js"
+
   },
   "private": true,
   "dependencies": {
@@ -16,13 +20,15 @@
     "@angular/compiler": "^14.1.0",
     "@angular/core": "^14.1.0",
     "@angular/forms": "^14.1.0",
-    "@angular/material": "^14.1.2",
+    "@angular/material": "^14.1.3",
     "@angular/platform-browser": "^14.1.0",
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
     "ngx-loading-buttons": "^14.0.0",
     "rxjs": "~7.5.0",
+    "source-map-explorer": "^2.5.2",
     "tslib": "^2.3.0",
+    "webpack-bundle-analyzer": "^4.6.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

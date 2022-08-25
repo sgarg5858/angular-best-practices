@@ -10,6 +10,7 @@ import { Post } from '../posts.service';
 export class PostsComponent implements OnInit {
 
   posts:Post[]=[];
+  
   constructor(private activatedRoute:ActivatedRoute) {
     this.posts=this.activatedRoute.snapshot.data['posts'];
     console.log(this.posts);
